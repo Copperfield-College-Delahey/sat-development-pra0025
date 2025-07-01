@@ -5,12 +5,12 @@ root = ctk.CTk()
 
 # Appearance
 ctk.set_appearance_mode("Light") # Sets to light mode
-ctk.set_default_color_theme("blue") 
+ctk.set_default_color_theme("blue") # sets the theme to blue
 
 # App setup
 app = ctk.CTk()
-app.title("Smart Sort")
-app.geometry("1000x600")
+app.title("Smart Sort") # app title
+app.geometry("1000x600") # dimensions of window
 
 
 
@@ -34,7 +34,7 @@ def start():
     pass
     
 # Start Button
-start_button = ctk.CTkButton(root, text="Start Organisation", command=start)
+start_button = ctk.CTkButton(root, text="Start Organisation", command=start) # button for starting the system
 start_button.pack(pady=80)
 
 
