@@ -1,1 +1,5 @@
 # https://www.youtube.com/watch?v=krMJKDzoBhg video was used in order to create an expanding sidebar menu
+
+# copilot helped define frame for me by suggesting to add "ctk.CTK" infront of frame
+
+# copilot provided the sticky and pady in order to place the start button in the middle bottem of window
