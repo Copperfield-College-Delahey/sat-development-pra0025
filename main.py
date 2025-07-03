@@ -24,6 +24,35 @@ sidebar = ctk.CTkFrame(app, border_width=3)
 sidebar.grid(row=0, column=0, columnspan=3, sticky="nsew", padx=5, pady=5) # puts sidebar on the left side
 
 
+# Dashboard Menu
+class Dashboard(ctk.CTk):
+    def __init__(self): # runs the parent class setup so the window works correctly.
+        super().__init__()
+
+        self.grid_columnconfigure(0,weight=0)
+        self.grid_rowconfigure((0,0),weight=1)
+
+        self.frame = ctk.CTkFrame(self)
+        self.frame.pack(side='left',fill='y')
+
+        self.button = ctk.CTkButton(self.frame,text='☰',width=50,font=("roboto",25),hover_color='#242424',fg_color='#2B2B2B',command=self.expand_side_bar)
+        self.button.grid()
+
+
+        
+
+    def expand_side_bar(self):
+        size = self.button.cget("width") # Retrieves the current width of the sidebar toggle button to check if the sidebar is expanded or collapsed
+        
+
+        if size == 70:
+            self.button.configure(width=250)
+        else:self.button.configure(width=70)
+
+
+
+
+
 
 # Main dashboard area
 main = ctk.CTkFrame(app, border_width=3)
@@ -34,7 +63,7 @@ main.grid_rowconfigure(0, weight=1)  # Top space expands
 main.grid_rowconfigure(1, weight=0)  # Button row
 
 def start():
-    print("Starting")
+    pass
     
 # Start Button
 start_button = ctk.CTkButton(app, text="Start Organisation", command=start) # button for starting the system

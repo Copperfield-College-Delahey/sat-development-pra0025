@@ -3,3 +3,5 @@
 # copilot helped define frame for me by suggesting to add "ctk.CTK" infront of frame
 
 # copilot provided the sticky and pady in order to place the start button in the middle bottem of window
+
+# https://github.com/TomSchimansky/CustomTkinter/issues/2447 code was gathered from this site in order to help create an expanding dashboard

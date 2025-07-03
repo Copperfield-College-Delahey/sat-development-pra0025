@@ -1,33 +1,30 @@
-from tkinter import *
- 
-class Dashboard(Tk):
-    def __init__(self):
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+
+import customtkinter as ctk
+
+
+class Dashboard(ctk.CTk):
+    def __init__(self): # runs the parent class setup so the window works correctly.
         super().__init__()
-        self.title("Dashboard")
-        self.geometry("1000x600")
+
+        self.grid_columnconfigure(0,weight=0)
+        self.grid_rowconfigure((0,1),weight=1)
+
+        self.frame = ctk.CTkFrame(self)
+        self.frame.pack(side='left',fill='y')
+
+        self.button = ctk.CTkButton(self.frame,text='☰',width=50,font=("roboto",25),hover_color='#242424',fg_color='#2B2B2B',command=self.expand_side_bar)
+        self.button.grid()
+
+
         
-        self.sidebar_expand = True # gives the function that allows the side bar to expand
+
+    def expand_side_bar(self):
+        size = self.button.cget("width") # Retrieves the current width of the sidebar toggle button to check if the sidebar is expanded or collapsed
         
-        # sidebar frame
-        self.sidebar_frame = Frame(self, bg="#108cff", width=200, height=500)
-        self.sidebar_frame.grid(row=0, column=0, sticky="ns")
-        
-        # Main content frame
-        self.content_frame = Frame(self, bg="ecf0f1")
-        self.content_frame.grid(row=0, column=1, sticky="nsew")
-        
-        # Side bar toggle to expand
-        self.toggle_button = Button(self.sidebar_frame, text="☰", bg="#034787", fg="white",
-                                    cursor="hand2", font=("Arial", 16), releif="flat") # the symbol "☰" was gathered for an copy and paste website
-        self.toggle_button.pack(pady-10, padx=10, fill="x",)
-        
-    
-if __name__ == "__main__":
-    app = Dashboard()
-    app.mainloop()
-    # Example of an indented block inside an if statement
-    if app.sidebar_expand:
-        print("Sidebar expanded")
-        
+
+        if size == 70:
+            self.button.configure(width=250)
+        else:self.button.configure(width=70)
+
+app = Dashboard()
+app.mainloop()
