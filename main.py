@@ -7,6 +7,26 @@ from customtkinter import *
 ctk.set_appearance_mode("Light") # Sets to light mode
 ctk.set_default_color_theme("blue") # sets the theme to blue
 
+
+# File extension mappings
+file_types = {
+    # All image file extensions go into the "Images" folder
+    "Images": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+    # All documents file extensions go into the "Documents" folder
+    "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx"],
+    # All audio file extensions go into the "Audio" folder
+    "Audio": [".mp3", ".wav", ".aac"],
+    # All video file extensions go into the "Videos" folder
+    "Videos": [".mp4", ".mov", ".avi", ".mkv"],
+    # All archives file extensions go into the "Archives" folder
+    "Archives": [".zip", ".rar", ".7z"],
+    # All programs file extensions go into the "Program" folder
+    "Programs": [".exe", ".msi", ".bat"],
+    # All scripts file extensions go into the "Scripts" folder
+    "Scripts": [".py", ".js", ".html", ".css"],
+    "Others": []
+}
+
 # App setup
 app = ctk.CTk()
 app.title("Smart Sort") # app title
@@ -48,6 +68,10 @@ class Dashboard(ctk.CTk):
         if size == 70:
             self.button.configure(width=250)
         else:self.button.configure(width=70)
+        
+    def run_organizer(self):
+        folder = self.path_entry.get() # Get the folder path from the entry box in the GUI
+        base_path = Path(folder)
 
 
 
