@@ -39,10 +39,10 @@ app.grid_columnconfigure(0, weight=2) # Left Column
 app.grid_columnconfigure(1, weight=4) # Right Column
 app.grid_rowconfigure(0, weight=1)
 
+
 # Sidebar
 sidebar = ctk.CTkFrame(app, border_width=3)
 sidebar.grid(row=0, column=0, columnspan=3, sticky="nsew", padx=5, pady=5) # puts sidebar on the left side
-
 
 # Dashboard Menu
 class Dashboard(ctk.CTk):
@@ -55,7 +55,7 @@ class Dashboard(ctk.CTk):
         self.frame = ctk.CTkFrame(self)
         self.frame.pack(side='left',fill='y')
 
-        self.button = ctk.CTkButton(self.frame,text='☰',width=50,font=("roboto",25),hover_color='#242424',fg_color='#2B2B2B',command=self.expand_side_bar)
+        self.button = ctk.CTkButton(self.frame,text='☰',row=0,column=0,width=50,font=("roboto",25),hover_color='#242424',fg_color='#2B2B2B',command=self.expand_side_bar)
         self.button.grid()
 
 
@@ -64,14 +64,16 @@ class Dashboard(ctk.CTk):
     def expand_side_bar(self):
         size = self.button.cget("width") # Retrieves the current width of the sidebar toggle button to check if the sidebar is expanded or collapsed
         
-
-        if size == 70:
-            self.button.configure(width=250)
-        else:self.button.configure(width=70)
         
-    def run_organizer(self):
-        folder = self.path_entry.get() # Get the folder path from the entry box in the GUI
-        base_path = Path(folder)
+    def run_organiser(self):
+        pass
+    
+    def browse_folder(self):
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            self.path_entry.delete(0, "end")
+            self.path_entry.insert(0, folder_path)
+            
 
 
 
@@ -87,7 +89,9 @@ main.grid_rowconfigure(0, weight=1)  # Top space expands
 main.grid_rowconfigure(1, weight=0)  # Button row
 
 def start():
-    pass
+    folder = selected_folder.get() # saves the selected folder path into variable called folder
+    if folder == "No folder selected" or not os.path.exists(folder): # Checks if no folder was picked or if the folder path doesn't exist
+        return
     
 # Start Button
 start_button = ctk.CTkButton(app, text="Start Organisation", command=start) # button for starting the system
@@ -95,5 +99,6 @@ start_button.grid(row=1, column=1, sticky="s", pady=10, padx=10)
 
 
 
-
-app.mainloop()
+# Running the app
+if __name__ == "__main__":
+    app.mainloop()

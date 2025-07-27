@@ -5,3 +5,9 @@
 # copilot provided the sticky and pady in order to place the start button in the middle bottem of window
 
 # https://github.com/TomSchimansky/CustomTkinter/issues/2447 code was gathered from this site in order to help create an expanding dashboard
+
+ # def browse_folder(self):    this code was gathered from chat gpt so the it can provide a function to select a folder for the organisation.
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            self.path_entry.delete(0, "end")
+            self.path_entry.insert(0, folder_path) #
