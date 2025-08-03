@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from customtkinter import *
-
+import os # to interact with folders and files
+import shutil # To move files to specific folder
 
 
 # Appearance
@@ -8,21 +9,14 @@ ctk.set_appearance_mode("Light") # Sets to light mode
 ctk.set_default_color_theme("blue") # sets the theme to blue
 
 
-# File extension mappings
+# Defining file categories
 file_types = {
-    # All image file extensions go into the "Images" folder
     "Images": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
-    # All documents file extensions go into the "Documents" folder
     "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx"],
-    # All audio file extensions go into the "Audio" folder
     "Audio": [".mp3", ".wav", ".aac"],
-    # All video file extensions go into the "Videos" folder
     "Videos": [".mp4", ".mov", ".avi", ".mkv"],
-    # All archives file extensions go into the "Archives" folder
     "Archives": [".zip", ".rar", ".7z"],
-    # All programs file extensions go into the "Program" folder
     "Programs": [".exe", ".msi", ".bat"],
-    # All scripts file extensions go into the "Scripts" folder
     "Scripts": [".py", ".js", ".html", ".css"],
     "Others": []
 }
@@ -37,6 +31,9 @@ app.geometry("1000x600") # dimensions of window
 # Layout 
 app.grid_columnconfigure(0, weight=2) # Left Column
 app.grid_columnconfigure(1, weight=4) # Right Column
+app.grid_columnconfigure(2, weight=4)
+app.grid_columnconfigure(3, weight=4)
+
 app.grid_rowconfigure(0, weight=1)
 
 
@@ -68,34 +65,57 @@ class Dashboard(ctk.CTk):
     def run_organiser(self):
         pass
     
+    def organise_files(self):
+        # allows user to pick which file to organise
+        folder = filedialog.askdirectory()
+        print(folder)
+        folderlist= os.listdir(folder)
+        print(folderlist)
+    
+        
+        if not folder: # If the user doesnt choose anything than the function will just stop
+            return
+    
+
+        
+    
     def browse_folder(self):
         folder_path = filedialog.askdirectory()
         if folder_path:
             self.path_entry.delete(0, "end")
             self.path_entry.insert(0, folder_path)
-            
-
-
-
-
-
-
-# Main dashboard area
-main = ctk.CTkFrame(app, border_width=3)
-main.grid(row=0, column=1, columnspan=2, sticky="nsew", padx=5, pady=5) # main dashboard placed on he right and bigger than the sidebar
-
-# Configure main's grid to push content to the bottom
-main.grid_rowconfigure(0, weight=1)  # Top space expands
-main.grid_rowconfigure(1, weight=0)  # Button row
-
-def start():
-    folder = selected_folder.get() # saves the selected folder path into variable called folder
-    if folder == "No folder selected" or not os.path.exists(folder): # Checks if no folder was picked or if the folder path doesn't exist
         return
     
-# Start Button
-start_button = ctk.CTkButton(app, text="Start Organisation", command=start) # button for starting the system
-start_button.grid(row=1, column=1, sticky="s", pady=10, padx=10)
+
+
+    
+
+
+
+    # Main dashboard area
+    main = ctk.CTkFrame(app, border_width=3)
+    main.grid(row=0, column=1, columnspan=2, sticky="nsew", padx=5, pady=5) # main dashboard placed on he right and bigger than the sidebar
+
+    # Configure main's grid to push content to the bottom
+    main.grid_rowconfigure(0, weight=1)  # Top space expands
+    main.grid_rowconfigure(1, weight=0)  # Button row
+
+    def start():
+        folder = selected_folder.get() # saves the selected folder path into variable called folder
+        if folder == "No folder selected" or not os.path.exists(folder): # Checks if no folder was picked or if the folder path doesn't exist
+            return
+        
+    # Start Button
+    start_button = ctk.CTkButton(app, text="Start Organisation", command=start) # button for starting the system
+    start_button.grid(row=1, column=1, sticky="s", pady=10, padx=10)
+
+    # Choose file to organise button
+    choose_button = ctk.CTkButton(app, text="Choose Folder", command=organise_files) 
+    choose_button.grid(row=1, column=2, sticky="s", pady=10, padx=10)
+
+
+    # Updating display
+
 
 
 
