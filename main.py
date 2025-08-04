@@ -65,16 +65,32 @@ class Dashboard(ctk.CTk):
     def run_organiser(self):
         pass
     
-    def organise_files(self):
-        # allows user to pick which file to organise
-        folder = filedialog.askdirectory()
+    def organise_files():
+        # --Reading Files--
+        folder = filedialog.askdirectory() # allows user to pick which file to organise
         print(folder)
-        folderlist= os.listdir(folder)
+        folderlist = os.listdir(folder)
         print(folderlist)
-    
         
         if not folder: # If the user doesnt choose anything than the function will just stop
             return
+        
+        # --Organising files into subfolders--
+        
+        
+        # --- Checking if folder exist and if it doesn't it creates one ---
+        # Checking if the folder exist before moving the file
+        dest_folder = os.path.join(folder, folder_name) # Creates a destination folder path
+        if not os.path.exists(dest_folder): # Checks if the destination of the folder exists
+            os.makedirs(dest_folder) # If folder doesn't exist, creates it.
+            
+        shutil.move(file_path, os.path.join(dest_folder, filename)) # Moves the files to the destination folder
+        
+        
+            
+    
+    
+        
     
 
         
