@@ -72,40 +72,28 @@ class Dashboard(ctk.CTk):
         folderlist = os.listdir(folder)
         print(folderlist)
         
-        if not folder: # If the user doesnt choose anything than the function will just stop
-            return
-        
-        # --Organising files into subfolders--
-        
-        
-        # --- Checking if folder exist and if it doesn't it creates one ---
-        # Checking if the folder exist before moving the file
-        dest_folder = os.path.join(folder, folder_name) # Creates a destination folder path
-        if not os.path.exists(dest_folder): # Checks if the destination of the folder exists
-            os.makedirs(dest_folder) # If folder doesn't exist, creates it.
-            
-        shutil.move(file_path, os.path.join(dest_folder, filename)) # Moves the files to the destination folder
-        
-        
-            
-    
-    
-        
-    
+        def organise_files():
+            folder = selected_folder.get()
+            if folder == "No folder selected" or not os.path.exists(folder):
+                    return
+ 
+            moved_count = 0 # Counts how many files were moved
+            file_types_found = set()  # Keeps track of which file type folders were used
 
+            for filename in os.listdir(folder): # Go through each item in the selected folder
+                filepath = os.path.join(folder, filename)
+                if os.path.isfile(filepath): # Only continue if the item is a file
+                    ext = os.path.splitext(filename)[1].lower()
+
+                    for folder_name, extensions in file_types.items():
+                        if ext in extensions:
+                            dest_folder = os.path.join(folder, folder_name)
+                            os.makedirs(dest_folder, exist_ok=True)
+                            shutil.move(filepath, os.path.join(dest_folder, filename))
+                            moved_count += 1 # increases the moved count
+                            file_types_found.add(folder_name)
+                            break
         
-    
-    def browse_folder(self):
-        folder_path = filedialog.askdirectory()
-        if folder_path:
-            self.path_entry.delete(0, "end")
-            self.path_entry.insert(0, folder_path)
-        return
-    
-
-
-    
-
 
 
     # Main dashboard area
@@ -121,17 +109,13 @@ class Dashboard(ctk.CTk):
         if folder == "No folder selected" or not os.path.exists(folder): # Checks if no folder was picked or if the folder path doesn't exist
             return
         
-    # Start Button
-    start_button = ctk.CTkButton(app, text="Start Organisation", command=start) # button for starting the system
-    start_button.grid(row=1, column=1, sticky="s", pady=10, padx=10)
 
-    # Choose file to organise button
-    choose_button = ctk.CTkButton(app, text="Choose Folder", command=organise_files) 
+    # Choose file to organise and start button
+    choose_button = ctk.CTkButton(app, text="Start Organisation", command=organise_files) 
     choose_button.grid(row=1, column=2, sticky="s", pady=10, padx=10)
 
 
     # Updating display
-
 
 
 
