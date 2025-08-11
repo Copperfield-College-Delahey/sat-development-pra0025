@@ -37,9 +37,35 @@ app.grid_columnconfigure(3, weight=4)
 app.grid_rowconfigure(0, weight=1)
 
 
+
+# Box for tracking variables
+def create_stat_box(parent, title, variable):
+    box = ctk.CTkFrame(parent, width=200, height=100, corner_radius=10)
+    box.pack(side="left", padx=15)
+    ctk.CTkLabel(box, textvariable=variable, font=("Arial", 20)).pack(pady=5)
+    ctk.CTkLabel(box, text=title).pack()
+    return box
+
+create_stat_box(app, "Total Files Organised", total_organised)
+create_stat_box(app, "New Files", new_files)
+create_stat_box(app, "Storage Space", storage_space)
+
+
+# Tracking Variables
+selected_folder = StringVar(value="No folder selected")
+total_organised = StringVar(value="0")
+new_files = StringVar(value="0")
+storage_space = StringVar(value="0 GB")
+file_type_display = StringVar(value="")
+last_run = StringVar(value="Never")
+
+
 # Sidebar
-sidebar = ctk.CTkFrame(app, border_width=3)
-sidebar.grid(row=0, column=0, columnspan=3, sticky="nsew", padx=5, pady=5) # puts sidebar on the left side
+sidebar = ctk.CTkFrame(app)
+sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew", padx=5, pady=5)
+ctk.CTkLabel(sidebar, text="Smart Sort", font=("Arial", 20)).pack(pady=20)
+for btn in ["Dashboard", "Organised Files", "Unsorted Files", "Settings", "Help"]:
+    ctk.CTkButton(sidebar, text=btn).pack(pady=5, padx=10, fill="x")
 
 # Dashboard Menu
 class Dashboard(ctk.CTk):
@@ -52,18 +78,21 @@ class Dashboard(ctk.CTk):
         self.frame = ctk.CTkFrame(self)
         self.frame.pack(side='left',fill='y')
 
-        self.button = ctk.CTkButton(self.frame,text='☰',row=0,column=0,width=50,font=("roboto",25),hover_color='#242424',fg_color='#2B2B2B',command=self.expand_side_bar)
-        self.button.grid()
+
 
 
         
 
-    def expand_side_bar(self):
-        size = self.button.cget("width") # Retrieves the current width of the sidebar toggle button to check if the sidebar is expanded or collapsed
+
+    # Gives the total free storage on desktop
+    def get_storage_summary():
+        total, used, free = shutil.disk_usage(os.path.expanduser("~"))
+        total_gb = round(total / (1024**3), 2)
+        free_gb = round(free / (1024**3), 2)
+        return f"{free_gb} GB Free / {total_gb} GB Total"
         
         
-    def run_organiser(self):
-        pass
+
     
     def organise_files():
         # --Reading Files--
@@ -91,8 +120,13 @@ class Dashboard(ctk.CTk):
                             os.makedirs(dest_folder, exist_ok=True)
                             shutil.move(filepath, os.path.join(dest_folder, filename))
                             moved_count += 1 # increases the moved count
-                            file_types_found.add(folder_name)
+                            file_types_found.add(folder_name) # Records that a folder type was used
                             break
+                        
+                        
+        # Prompt indicating process is complete
+        messagebox.showinfo("Success", "Files have been organised!")
+    
         
 
 
